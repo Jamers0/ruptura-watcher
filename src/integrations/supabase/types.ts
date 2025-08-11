@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           aba_origem: string
           created_at: string
+          data: string | null
           data_requisicao: string
           descricao: string
           em_transito_ff: number
@@ -44,6 +45,7 @@ export type Database = {
         Insert: {
           aba_origem: string
           created_at?: string
+          data?: string | null
           data_requisicao: string
           descricao: string
           em_transito_ff?: number
@@ -70,6 +72,7 @@ export type Database = {
         Update: {
           aba_origem?: string
           created_at?: string
+          data?: string | null
           data_requisicao?: string
           descricao?: string
           em_transito_ff?: number
