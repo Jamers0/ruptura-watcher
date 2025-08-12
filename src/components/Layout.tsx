@@ -20,11 +20,11 @@ interface LayoutProps {
 }
 
 const navigation = [
-  { id: 'dashboard', name: 'Dashboard', icon: Home },
-  { id: 'dados', name: 'Dados de Ruturas', icon: Database },
-  { id: 'importar', name: 'Importar Dados', icon: Upload },
-  { id: 'analises', name: 'Análises', icon: TrendingUp },
+  { id: 'analises', name: 'Dashboard', icon: TrendingUp },
+  { id: 'dados', name: 'Data', icon: Database },
   { id: 'relatorios', name: 'Relatórios', icon: FileSpreadsheet },
+  { id: 'importar', name: 'Importar Dados', icon: Upload },
+  { id: 'configuracoes', name: 'Configurações', icon: Settings },
 ];
 
 export function Layout({ children, currentPage, onPageChange }: LayoutProps) {

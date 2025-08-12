@@ -1,0 +1,3 @@
+Semana,Hora Rutura,Hora da rutura,Seção,Tipo de requisição,OT,REQ,Tipo Produto,Nº Produto,Descrição,Qtd. Req.,Qtd. Env.,Qtd. Falta,Un. Med,Data,Stock CT,Stock FF,Em trânsito da FF,Tipologia Rutura,Aba Origem
+4ª Semana de Janeiro,14:30,14:30,CQ - Congelados,NORMAL,12345,REQ001,F&V,123456,Produto Teste 1,10,5,5,UN,15/01/2025,0,10,0,Sem Stock Físico e BC,14H
+4ª Semana de Janeiro,18:45,18:45,CF - Fresco,URGENTE,12346,REQ002,Pão & Iogurtes,123457,Produto Teste 2,20,15,5,UN,15/01/2025,5,0,0,A pedir à FF,18H

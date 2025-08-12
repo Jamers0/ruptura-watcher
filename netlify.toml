@@ -1,0 +1,48 @@
+[build]
+  # Diretório onde o build será gerado
+  publish = "dist"
+  
+  # Comando para build
+  command = "npm run build"
+
+[build.environment]
+  # Versão do Node.js
+  NODE_VERSION = "18"
+  
+  # Configurações específicas do build
+  NODE_ENV = "production"
+
+# Configuração para Single Page Application (SPA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Configurações de cabeçalhos para otimização
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cabeçalhos específicos para assets estáticos
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cabeçalhos para arquivos CSS e JS
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Configuração para variáveis de ambiente
+# As variáveis devem ser definidas no painel do Netlify

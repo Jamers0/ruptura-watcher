@@ -31,6 +31,67 @@ export function ImportData({ onDataImported }: ImportDataProps) {
   const [importResult, setImportResult] = useState<ExcelImportResult | null>(null);
   const { toast } = useToast();
 
+  // Funções de persistência local
+  const saveDataToLocalStorage = useCallback((ruturas: Rutura[]) => {
+    try {
+      const existingData = JSON.parse(localStorage.getItem('ruturas_data') || '[]');
+      const combinedData = [...existingData, ...ruturas];
+      
+      // Remove duplicados baseado em uma chave única (combinação de campos)
+      const uniqueData = combinedData.reduce((acc, current) => {
+        const key = `${current.numero_produto}-${current.secao}-${current.data}-${current.hora_rutura}-${current.ot}-${current.req}`;
+        if (!acc.find(item => `${item.numero_produto}-${item.secao}-${item.data}-${item.hora_rutura}-${item.ot}-${item.req}` === key)) {
+          acc.push(current);
+        }
+        return acc;
+      }, [] as Rutura[]);
+      
+      localStorage.setItem('ruturas_data', JSON.stringify(uniqueData));
+      
+      toast({
+        title: "Dados salvos",
+        description: `${ruturas.length} registros foram salvos localmente.`,
+        variant: "default",
+      });
+    } catch (error) {
+      console.error('Erro ao salvar dados:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível salvar os dados localmente.",
+        variant: "destructive",
+      });
+    }
+  }, [toast]);
+
+  const clearLocalData = useCallback(() => {
+    try {
+      localStorage.removeItem('ruturas_data');
+      setImportResult(null);
+      toast({
+        title: "Dados limpos",
+        description: "Todos os dados locais foram removidos.",
+        variant: "default",
+      });
+      onDataImported(); // Recarrega os dados no componente pai
+    } catch (error) {
+      console.error('Erro ao limpar dados:', error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível limpar os dados.",
+        variant: "destructive",
+      });
+    }
+  }, [toast, onDataImported]);
+
+  const getLocalDataCount = useCallback(() => {
+    try {
+      const existingData = JSON.parse(localStorage.getItem('ruturas_data') || '[]');
+      return existingData.length;
+    } catch {
+      return 0;
+    }
+  }, []);
+
   const processExcelData = useCallback((data: any[], sheetName: string): Rutura[] => {
     const ruturas: Rutura[] = [];
     
@@ -152,25 +213,13 @@ export function ImportData({ onDataImported }: ImportDataProps) {
 
       setProgress(90);
 
-      // Salvar no Supabase
+      // Salvar localmente
       if (validRuturas.length > 0) {
-        const { error: insertError } = await supabase
-          .from('ruturas')
-          .insert(validRuturas.map(rutura => ({
-            ...rutura,
-            data_requisicao: rutura.data,
-            aba_origem: rutura.aba_origem || 'Import',
-            user_id: null
-          })));
-
-        if (insertError) {
-          errors.push(`Erro ao salvar no banco: ${insertError.message}`);
-        } else {
-          toast({
-            title: "Import realizado com sucesso!",
-            description: `${validRuturas.length} ruturas foram importadas.`,
-          });
+        try {
+          saveDataToLocalStorage(validRuturas);
           onDataImported();
+        } catch (error) {
+          errors.push(`Erro ao salvar dados localmente: ${error}`);
         }
       }
 
@@ -193,7 +242,7 @@ export function ImportData({ onDataImported }: ImportDataProps) {
       // Reset input
       event.target.value = '';
     }
-  }, [processExcelData, toast, onDataImported]);
+  }, [processExcelData, toast, onDataImported, saveDataToLocalStorage]);
 
   const downloadTemplate = () => {
     const template = [
@@ -254,18 +303,29 @@ export function ImportData({ onDataImported }: ImportDataProps) {
             </label>
           </div>
 
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <Button variant="outline" onClick={downloadTemplate}>
               <Download className="h-4 w-4 mr-2" />
               Baixar Template
             </Button>
             
-            {importResult && (
-              <Button variant="outline" onClick={clearResults}>
+            <div className="flex gap-2">
+              <Button 
+                variant="destructive" 
+                onClick={clearLocalData}
+                className="text-sm"
+              >
                 <Trash2 className="h-4 w-4 mr-2" />
-                Limpar Resultados
+                Limpar Dados ({getLocalDataCount()})
               </Button>
-            )}
+              
+              {importResult && (
+                <Button variant="outline" onClick={clearResults}>
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Limpar Resultados
+                </Button>
+              )}
+            </div>
           </div>
 
           {isLoading && (

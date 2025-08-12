@@ -1,56 +1,123 @@
-# Welcome to your Lovable project
+# 📊 Analise de Ruturas
 
-## Project info
+Sistema completo de gestão e análise de ruturas de produtos, desenvolvido com React + TypeScript + Supabase e otimizado para deploy no Netlify.
 
-**URL**: https://lovable.dev/projects/2f17f380-d0d2-4dde-ae4f-39f967429e95
+## ✨ Funcionalidades
 
-## How can I edit this code?
+- 📁 **Importação Avançada**: Suporte a CSV, XLSX e Google Sheets
+- 📊 **Dashboard Interativo**: Gráficos dinâmicos e KPIs em tempo real
+- 🗃 **Gestão de Dados**: Tabelas com busca, filtros e ordenação
+- 📈 **Analytics Avançado**: Cálculos automáticos e insights
+- 🚀 **Performance Otimizada**: Code splitting e lazy loading
+- 📱 **Design Responsivo**: Interface moderna para todos os dispositivos
 
-There are several ways of editing your application.
+## 🛠 Tecnologias
 
-**Use Lovable**
+- **Frontend**: React 18.3.1, TypeScript, Vite 5.4.19
+- **UI**: Tailwind CSS, shadcn/ui, Recharts
+- **Backend**: Supabase (PostgreSQL + Auth + Real-time)
+- **Processamento**: XLSX, PapaParse para arquivos
+- **Deploy**: Netlify com otimizações avançadas
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2f17f380-d0d2-4dde-ae4f-39f967429e95) and start prompting.
+## 🚀 Como Executar
 
-Changes made via Lovable will be committed automatically to this repo.
+### Pré-requisitos
+- Node.js 18+
+- NPM ou Yarn
+- Conta no Supabase
 
-**Use your preferred IDE**
+### Instalação
+```bash
+# Clone o repositório
+git clone https://github.com/seu-usuario/ruptura-watcher.git
+cd ruptura-watcher
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+# Instale as dependências
+npm install
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+# Configure as variáveis de ambiente
+cp .env.example .env.local
+# Edite .env.local com suas credenciais do Supabase
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Execute em desenvolvimento
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Deploy no Netlify
+```bash
+# Build de produção
+npm run build
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+# Deploy automático via Git
+# Configure as variáveis de ambiente no dashboard do Netlify:
+# VITE_SUPABASE_URL=your_supabase_url
+# VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-**Use GitHub Codespaces**
+## 📊 Estrutura de Dados
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+O sistema processa dados de ruturas com os seguintes campos:
 
-## What technologies are used for this project?
+- **Identificação**: Semana, seção, horário
+- **Requisição**: OT, REQ, tipo
+- **Produto**: Código, descrição, departamento
+- **Quantidades**: Solicitado, enviado, em falta
+- **Estoque**: CT, FF, em trânsito
+- **Classificação**: Tipologia da rutura
+
+## 🔧 Scripts Disponíveis
+
+```bash
+npm run dev          # Desenvolvimento
+npm run build        # Build de produção
+npm run preview      # Preview do build
+npm run type-check   # Verificação TypeScript
+npm start           # Servidor local
+```
+
+## 📁 Importação de Dados
+
+### Formatos Suportados
+- **CSV**: Arquivos separados por vírgula
+- **XLSX**: Planilhas do Excel
+- **Google Sheets**: Abas específicas (14H, 18H)
+
+### Mapeamento de Colunas
+O sistema mapeia automaticamente:
+- Datas → Cálculo da semana do mês
+- Quantidades → Conversão numérica
+- Produtos → Validação de códigos
+- Seções → Normalização de nomes
+
+## 📈 Dashboard
+
+### KPIs Principais
+- Total de ruturas no período
+- Valor total em falta
+- Produtos únicos afetados  
+- Seções com ruturas
+
+### Visualizações
+- **Barras**: Ruturas por semana
+- **Pizza**: Distribuição por tipo
+- **Área**: Evolução temporal
+- **Rankings**: Top produtos/seções
+
+## 🛡 Segurança
+
+- Headers de segurança (CSP, HSTS)
+- Validação de entrada rigorosa
+- Sanitização de dados
+- RLS (Row Level Security) no Supabase
+- TypeScript para type safety
+
+## 📚 Documentação
+
+Para documentação detalhada, consulte [DOCUMENTACAO.md](DOCUMENTACAO.md).
+
+---
+
+**Desenvolvido com ❤️ para otimizar a gestão de ruturas**
 
 This project is built with:
 

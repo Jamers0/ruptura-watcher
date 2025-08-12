@@ -2,6 +2,26 @@ import { format, getWeek, startOfMonth, endOfMonth, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import type { Rutura, DashboardStats } from './types';
 
+// Mapeamento para normalizar seções conforme especificado
+const SECOES_NORMALIZADAS: Record<string, string> = {
+  'COZINHA FRIA - KOREIA': 'COZINHA FRIA - KE',
+  'COZINHA FRIA KOREIA': 'COZINHA FRIA - KE',
+  'REF. COZINHA QUENTE': 'REFEITÓRIO COZINHA QUENTE',
+  'REFEITÓRIO COZINHA QUENTE': 'REFEITÓRIO COZINHA QUENTE',
+  'REFEITÓRIO PASTELARIA': 'RPA',
+  'RPA': 'RPA',
+  'R.P.L. - REFEITÓRIO': 'RPL',
+  'RPL': 'RPL',
+  'TSU - DELTA': 'TSU - DL',
+  'TSU - DL': 'TSU - DL',
+  'TSU - KOREIA': 'TSU - KE',
+  'TSU - KE': 'TSU - KE'
+};
+
+export function normalizarSecao(secao: string): string {
+  return SECOES_NORMALIZADAS[secao] || secao;
+}
+
 export function calculateWeekOfMonth(date: string | Date): string {
   try {
     const dateObj = typeof date === 'string' ? parseISO(date) : date;
@@ -72,7 +92,10 @@ export function calculateDashboardStats(ruturas: Rutura[]): DashboardStats {
   const valorTotal = ruturas.reduce((sum, r) => sum + (r.qtd_falta * 10), 0); // Valor estimado
   const ruturasResolVidas = ruturas.filter(r => r.qtd_falta === 0);
   const taxaResolucao = ruturas.length > 0 ? (ruturasResolVidas.length / ruturas.length) * 100 : 0;
-  const secoes = new Set(ruturas.map(r => r.secao));
+  
+  // Normalizar seções antes de contar
+  const secoesNormalizadas = new Set(ruturas.map(r => normalizarSecao(r.secao)));
+  
   const hoje = new Date().toISOString().split('T')[0];
   const ruturasHoje = ruturas.filter(r => r.data === hoje);
 
@@ -81,7 +104,7 @@ export function calculateDashboardStats(ruturas: Rutura[]): DashboardStats {
     ruturasAtivas: ruturasAtivas.length,
     valorTotal,
     taxaResolucao: Math.round(taxaResolucao),
-    secoesAfetadas: secoes.size,
+    secoesAfetadas: secoesNormalizadas.size,
     ruturasHoje: ruturasHoje.length,
   };
 }
