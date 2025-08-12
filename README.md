@@ -11,7 +11,29 @@ Sistema completo de gestão e análise de ruturas de produtos, desenvolvido com 
 - 🚀 **Performance Otimizada**: Code splitting e lazy loading
 - 📱 **Design Responsivo**: Interface moderna para todos os dispositivos
 
-## 🛠 Tecnologias
+## � Deploy no Netlify
+
+### Configuração Automática
+O projeto está configurado para deploy automático no Netlify com:
+
+- **Build Command**: `npm install && npm run build`
+- **Publish Directory**: `dist`
+- **Node Version**: 18
+- **Environment**: Todas as devDependencies incluídas
+
+### Variáveis de Ambiente Necessárias
+Configure no painel do Netlify:
+```
+VITE_SUPABASE_URL=sua_url_do_supabase
+VITE_SUPABASE_ANON_KEY=sua_chave_anonima
+```
+
+### Arquivos de Configuração
+- `netlify.toml`: Configurações de build e headers
+- `.nvmrc`: Versão do Node.js
+- `package.json`: Scripts otimizados
+
+## �🛠 Tecnologias
 
 - **Frontend**: React 18.3.1, TypeScript, Vite 5.4.19
 - **UI**: Tailwind CSS, shadcn/ui, Recharts

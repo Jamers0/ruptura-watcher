@@ -2,8 +2,8 @@
   # Diretório onde o build será gerado
   publish = "dist"
   
-  # Comando para build
-  command = "npm run build"
+  # Comando para build - garantindo que todas as dependências sejam instaladas
+  command = "npm install && npm run build"
 
 [build.environment]
   # Versão do Node.js
@@ -11,6 +11,9 @@
   
   # Configurações específicas do build
   NODE_ENV = "production"
+  
+  # Instalar também devDependencies para o build
+  NPM_CONFIG_PRODUCTION = "false"
 
 # Configuração para Single Page Application (SPA)
 [[redirects]]
