@@ -67,64 +67,61 @@ export const TopNavigation: React.FC<TopNavigationProps> = ({ activeTab, onTabCh
 
   return (
     <div className="bg-white border-b shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-full mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Logo/Title */}
-          <div className="flex items-center space-x-2">
-            <BarChart3 className="h-8 w-8 text-primary" />
+          {/* Logo/Title - Extrema esquerda */}
+          <div className="flex items-center space-x-2 flex-shrink-0">
+            <BarChart3 className="h-7 w-7 text-primary" />
             <span className="text-xl font-bold text-gray-900">
               Analise de Ruturas
             </span>
           </div>
 
-          {/* Navigation and Status */}
-          <div className="flex items-center space-x-4">
-            {/* Navigation */}
-            <nav className="flex space-x-1">
-              {navigationItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
-                
-                return (
-                  <Button
-                    key={item.id}
-                    variant={isActive ? "default" : "ghost"}
-                    size="sm"
-                    onClick={() => onTabChange(item.id)}
-                    className={`flex items-center space-x-2 px-3 py-2 ${
-                      isActive 
-                        ? 'bg-primary text-white' 
-                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span className="hidden md:inline-block">{item.label}</span>
-                  </Button>
-                );
-              })}
-            </nav>
+          {/* Navigation - Centro */}
+          <nav className="flex space-x-1 flex-1 justify-center max-w-4xl">
+            {navigationItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              
+              return (
+                <Button
+                  key={item.id}
+                  variant={isActive ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => onTabChange(item.id)}
+                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+                    isActive 
+                      ? 'bg-primary text-white shadow-sm' 
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span className="hidden lg:inline-block text-sm">{item.label}</span>
+                </Button>
+              );
+            })}
+          </nav>
 
-            {/* Status and Date */}
-            <div className="flex items-center space-x-3 text-sm">
-              {/* Connection Status */}
-              <div className="flex items-center space-x-1">
-                {isOnline ? (
-                  <div className="flex items-center space-x-1 text-green-600">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="hidden sm:inline">Online</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-1 text-red-600">
-                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                    <span className="hidden sm:inline">Offline</span>
-                  </div>
-                )}
-              </div>
+          {/* Status and Date - Extrema direita */}
+          <div className="flex items-center space-x-4 text-sm flex-shrink-0">
+            {/* Connection Status */}
+            <div className="flex items-center space-x-2">
+              {isOnline ? (
+                <div className="flex items-center space-x-2 text-green-600">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="font-medium">Online</span>
+                </div>
+              ) : (
+                <div className="flex items-center space-x-2 text-red-600">
+                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <span className="font-medium">Offline</span>
+                </div>
+              )}
+            </div>
 
-              {/* Current Date */}
-              <div className="text-gray-600 hidden lg:block">
-                {currentDate}
-              </div>
+            {/* Current Date */}
+            <div className="text-gray-700 font-medium hidden md:block">
+              {currentDate}
             </div>
           </div>
         </div>
